@@ -1,5 +1,7 @@
 package org.deeplearning4j.streaming.pipeline.spark;
 
+import java.util.Collection;
+import java.util.Collections;
 import org.apache.commons.net.util.Base64;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.datavec.api.writable.Writable;
@@ -7,9 +9,6 @@ import org.deeplearning4j.streaming.conversion.dataset.RecordToDataSet;
 import org.deeplearning4j.streaming.serde.RecordDeSerializer;
 import org.nd4j.linalg.dataset.DataSet;
 import scala.Tuple2;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Flat maps a binary dataset string in to a
@@ -30,7 +29,7 @@ public class DataSetFlatmap implements FlatMapFunction<Tuple2<String, String>, D
             byte[] bytes = Base64.decodeBase64(stringStringTuple2._2());
             Collection<Collection<Writable>> records = new RecordDeSerializer().deserialize("topic", bytes);
             DataSet d = recordToDataSetFunction.convert(records,numLabels);
-            return Arrays.asList(d);
+            return Collections.singletonList(d);
 
         } catch (Exception e) {
             System.out.println("Error serializing");

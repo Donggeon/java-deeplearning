@@ -20,7 +20,6 @@ public class RecordEncoder implements Encoder<Object> {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         SerializationUtils.writeObject((Serializable) writables,dataOutputStream);
-        byte[] ret = byteArrayOutputStream.toByteArray();
-        return ret;
+        return byteArrayOutputStream.toByteArray();
     }
 }
